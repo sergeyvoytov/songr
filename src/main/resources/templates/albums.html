@@ -6,22 +6,32 @@
 </head>
 <body>
 <h1>Songs and Artists</h1>
+
 <ul>
-    <li th:each="album : ${albumList}" >
+    <li th:each="album : ${albumList}">
 
         <img th:src="${album.imageUrl}" alt="">
 
         <!--            auto calls toString on anything being turned into text-->
         <span th:text="${album}"></span>
         <!--            If you have a getter on a private property it will call the getter for you-->
-<!--        <span th:text="${album.title}"></span>-->
-<!--        <span th:text="${album.artist}"></span>-->
-<!--        <span th:text="${album.songCount}"></span>-->
-<!--        <span th:text="${album.length}"></span>-->
-
-
+        <!--        <span th:text="${album.title}"></span>-->
+        <!--        <span th:text="${album.artist}"></span>-->
+        <!--        <span th:text="${album.songCount}"></span>-->
+        <!--        <span th:text="${album.length}"></span>-->
 
     </li>
+
+    <form action="/albums" method="POST">
+        <h2>Add a new album</h2>
+        title : <input type="text" name="title">
+        artist: <input type="text" name="artist">
+        songCount: <input type="number" name="songCount">
+        length: <input type="number" name="length">
+        imageUrl: <input type="text" name="imageUrl">
+
+        <input type="submit">
+    </form>
 
 </ul>
 </body>
