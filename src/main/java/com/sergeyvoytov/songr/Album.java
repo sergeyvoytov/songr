@@ -1,6 +1,18 @@
 package com.sergeyvoytov.songr;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+
 public class Album {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    long id;
+
     String title;
     String artist;
     Integer songCount;
@@ -13,6 +25,12 @@ public class Album {
         this.songCount = songCount;
         this.length = length;
         this.imageUrl = imageUrl;
+    }
+
+    // add default constructor
+
+    public Album() {
+
     }
 
     public String toString() {
