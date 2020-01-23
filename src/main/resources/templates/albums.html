@@ -14,11 +14,9 @@
 
         <!--            auto calls toString on anything being turned into text-->
         <span th:text="${album}"></span>
-        <!--            If you have a getter on a private property it will call the getter for you-->
-        <!--        <span th:text="${album.title}"></span>-->
-        <!--        <span th:text="${album.artist}"></span>-->
-        <!--        <span th:text="${album.songCount}"></span>-->
-        <!--        <span th:text="${album.length}"></span>-->
+
+        <a th:href="'/albums/'+${album.id}"> Album detail</a>
+
 
     </li>
 

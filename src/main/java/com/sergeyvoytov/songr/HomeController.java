@@ -3,10 +3,7 @@ package com.sergeyvoytov.songr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
@@ -20,6 +17,9 @@ public class HomeController {
     @Autowired
     AlbumRepository albumRepository;
 
+    @Autowired
+    SongRepository songRepository;
+
     @GetMapping("/")
     // The syntax for getting getting a query param is just to add it as a function parameter
     public String getHome(Model m) {
@@ -32,18 +32,11 @@ public class HomeController {
     public RedirectView posAlbums(String title, String artist, Integer songCount, Integer length, String imageUrl) {
         Album newAlbum = new Album(title, artist, songCount, length, imageUrl);
         albumRepository.save(newAlbum);
-
         return new RedirectView("/albums");
-
     }
 
     @GetMapping("/albums")
     public String getAlbums(Model m) {
-//        Album[] albums = new Album[]{new Album("Sing for the second", "Duke", 10, 180, "https://via.placeholder.com/150"),
-//                new Album("Sing for the moment", "Duke", 10, 180, "https://via.placeholder.com/150"),
-//                new Album("Number 1", "Prince", 7, 80, "https://via.placeholder.com/150"),
-//                new Album("Test4", "Nuke", 2, 124, "https://via.placeholder.com/150")};
-//List<Albums> albums = albumRepository
 
         List<Album> albums = albumRepository.findAll();
 
@@ -61,5 +54,44 @@ public class HomeController {
         System.out.println((capitalize.toUpperCase()));
         m.addAttribute("tomato", capitalize.toUpperCase());
         return "capitalize";
+    }
+
+
+    @GetMapping("/albums/{id}")
+    public String albumDetail(@PathVariable long id, Model m) {
+
+        Album album = albumRepository.findById(id).get();
+
+        m.addAttribute("album", album);
+
+        List<Song> songs = songRepository.findSongByAlbumId(id);
+
+        m.addAttribute("songs", songs);
+
+        return "detail";
+    }
+
+    @PostMapping("/song")
+    public RedirectView addSong(long id, String title, int length, int trackNumber) {
+        // find the right album
+        Album myAlbum = albumRepository.getOne(id);
+        // make a new song with the values from a form
+        Song newSong = new Song(title, length, trackNumber);
+
+        // add a album to the song
+        newSong.album = myAlbum;
+        //save the song
+        songRepository.save(newSong);
+        songRepository.findById(id);
+        // redirect them
+        return new RedirectView("/albums/" + id);
+    }
+
+    @GetMapping("/allsongs")
+    public String allSongs(Model m) {
+
+        List<Song> allsongs = songRepository.findAll();
+        m.addAttribute("allsongs", allsongs);
+        return "allsongs";
     }
 }
