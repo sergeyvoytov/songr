@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>All songs</title>
+</head>
+<body>
+ALL SONGS FROM DATABASE
+<ul>
+    <li th:each="song : ${allsongs}">
+        <span th:text="${song}"></span>
+    </li>
+</ul>
+
+</body>
+</html>

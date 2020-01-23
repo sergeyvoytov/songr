@@ -8,6 +8,8 @@ import javax.persistence.Id;
 @Entity
 
 public class Album {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -76,5 +78,9 @@ public class Album {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public long getId() {
+        return id;
     }
 }
